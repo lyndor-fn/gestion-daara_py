@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Talibés{% endblock %}
+{% block content %}
+<h1>Talibés</h1>
+<div class="toolbar">
+  <form class="filters" method="get">
+    <div><label for="q">Recherche</label><input id="q" name="q" value="{{ q }}" placeholder="Nom ou prénom"></div>
+    <div><label for="classe">Classe</label><select id="classe" name="classe"><option value="">Toutes</option>{% for c in classes %}<option value="{{ c.code }}" {% if c.code == classe_code %}selected{% endif %}>{{ c.libelle }}</option>{% endfor %}</select></div>
+    <button class="primary" type="submit">Rechercher</button>
+    <a class="btn" href="{{ url_for('talibes.lister') }}">Réinitialiser</a>
+  </form>
+  <div class="actions"><a class="btn" href="{{ url_for('talibes.exporter', q=q, classe=classe_code) }}">Exporter</a><a class="btn primary" href="{{ url_for('talibes.creer') }}">Ajouter</a></div>
+</div>
+<table>
+  <thead><tr><th>Matricule</th><th>Nom complet</th><th>Naissance</th><th>Tuteur</th><th>Classe</th><th>Actions</th></tr></thead>
+  <tbody>
+    {% for t in talibes %}
+      <tr>
+        <td>{{ t.matricule }}</td><td>{{ t.nom_complet }}</td><td>{{ t.date_naissance or "" }}</td><td>{{ t.nom_tuteur or "" }} {{ t.telephone_tuteur or "" }}</td><td>{{ t.classe.libelle }}</td>
+        <td class="actions">
+          <a class="btn" href="{{ url_for('talibes.modifier', matricule=t.matricule) }}">Modifier</a>
+          <form class="inline" method="post" action="{{ url_for('talibes.supprimer', matricule=t.matricule) }}">{{ csrf_token() }}<button class="danger" onclick="return confirm('Supprimer ?')">Supprimer</button></form>
+        </td>
+      </tr>
+    {% else %}
+      <tr><td colspan="6">Aucun talibé.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

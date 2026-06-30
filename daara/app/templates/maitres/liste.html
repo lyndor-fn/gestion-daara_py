@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Maîtres{% endblock %}
+{% block content %}
+<h1>Maîtres</h1>
+<div class="toolbar">
+  <form class="filters" method="get">
+    <div>
+      <label for="q">Recherche</label>
+      <input id="q" name="q" value="{{ q }}" placeholder="Nom ou prénom">
+    </div>
+    <button class="primary" type="submit">Rechercher</button>
+    <a class="btn" href="{{ url_for('maitres.lister') }}">Réinitialiser</a>
+  </form>
+  <div class="actions">
+    <a class="btn" href="{{ url_for('maitres.exporter', q=q) }}">Exporter</a>
+    <a class="btn primary" href="{{ url_for('maitres.creer') }}">Ajouter</a>
+  </div>
+</div>
+<table>
+  <thead><tr><th>Matricule</th><th>Prénom</th><th>Nom</th><th>Téléphone</th><th>Actions</th></tr></thead>
+  <tbody>
+    {% for m in maitres %}
+      <tr>
+        <td>{{ m.matricule }}</td><td>{{ m.prenom }}</td><td>{{ m.nom }}</td><td>{{ m.telephone or "" }}</td>
+        <td class="actions">
+          <a class="btn" href="{{ url_for('maitres.modifier', matricule=m.matricule) }}">Modifier</a>
+          <form class="inline" method="post" action="{{ url_for('maitres.supprimer', matricule=m.matricule) }}">
+            {{ csrf_token() }}
+            <button class="danger" onclick="return confirm('Supprimer ?')">Supprimer</button>
+          </form>
+        </td>
+      </tr>
+    {% else %}
+      <tr><td colspan="5">Aucun maître.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}{{ "Modifier" if classe else "Ajouter" }} une classe{% endblock %}
+{% block content %}
+<h1>{{ "Modifier" if classe else "Ajouter" }} une classe</h1>
+<form class="form-panel" method="post">
+  {{ form.hidden_tag() }}
+  <div class="field">{{ form.code.label }} {{ form.code(readonly=classe is not none) }}{% for e in form.code.errors %}<p class="errors">{{ e }}</p>{% endfor %}</div>
+  <div class="field">{{ form.libelle.label }} {{ form.libelle() }}{% for e in form.libelle.errors %}<p class="errors">{{ e }}</p>{% endfor %}</div>
+  <div class="field">{{ form.niveau.label }} {{ form.niveau() }}{% for e in form.niveau.errors %}<p class="errors">{{ e }}</p>{% endfor %}</div>
+  <div class="field">{{ form.maitre_matricule.label }} {{ form.maitre_matricule() }}{% for e in form.maitre_matricule.errors %}<p class="errors">{{ e }}</p>{% endfor %}</div>
+  <button class="primary" type="submit">Enregistrer</button>
+  <a class="btn" href="{{ url_for('classes.lister') }}">Annuler</a>
+</form>
+{% endblock %}

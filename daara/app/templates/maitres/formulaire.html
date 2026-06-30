@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}{{ "Modifier" if maitre else "Ajouter" }} un maître{% endblock %}
+{% block content %}
+<h1>{{ "Modifier" if maitre else "Ajouter" }} un maître</h1>
+<form class="form-panel" method="post">
+  {{ form.hidden_tag() }}
+  <div class="field">{{ form.matricule.label }} {{ form.matricule(readonly=maitre is not none) }}{% for e in form.matricule.errors %}<p class="errors">{{ e }}</p>{% endfor %}</div>
+  <div class="field">{{ form.prenom.label }} {{ form.prenom() }}{% for e in form.prenom.errors %}<p class="errors">{{ e }}</p>{% endfor %}</div>
+  <div class="field">{{ form.nom.label }} {{ form.nom() }}{% for e in form.nom.errors %}<p class="errors">{{ e }}</p>{% endfor %}</div>
+  <div class="field">{{ form.telephone.label }} {{ form.telephone() }}{% for e in form.telephone.errors %}<p class="errors">{{ e }}</p>{% endfor %}</div>
+  <button class="primary" type="submit">Enregistrer</button>
+  <a class="btn" href="{{ url_for('maitres.lister') }}">Annuler</a>
+</form>
+{% endblock %}

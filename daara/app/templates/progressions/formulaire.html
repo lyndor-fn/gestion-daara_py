@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}{{ "Modifier" if progression else "Ajouter" }} une progression{% endblock %}
+{% block content %}
+<h1>{{ "Modifier" if progression else "Ajouter" }} une progression</h1>
+<form class="form-panel" method="post">
+  {{ form.hidden_tag() }}
+  <div class="field">{{ form.talibe_matricule.label }} {{ form.talibe_matricule() }}{% for e in form.talibe_matricule.errors %}<p class="errors">{{ e }}</p>{% endfor %}</div>
+  <div class="field">{{ form.sourate.label }} {{ form.sourate() }}{% for e in form.sourate.errors %}<p class="errors">{{ e }}</p>{% endfor %}</div>
+  <div class="field">{{ form.nombre_versets.label }} {{ form.nombre_versets() }}{% for e in form.nombre_versets.errors %}<p class="errors">{{ e }}</p>{% endfor %}</div>
+  <div class="field">{{ form.date_evaluation.label }} {{ form.date_evaluation() }}{% for e in form.date_evaluation.errors %}<p class="errors">{{ e }}</p>{% endfor %}</div>
+  <div class="field">{{ form.observations.label }} {{ form.observations() }}{% for e in form.observations.errors %}<p class="errors">{{ e }}</p>{% endfor %}</div>
+  <button class="primary" type="submit">Enregistrer</button>
+  <a class="btn" href="{{ url_for('progressions.lister') }}">Annuler</a>
+</form>
+{% endblock %}

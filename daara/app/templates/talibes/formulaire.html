@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}{{ "Modifier" if talibe else "Ajouter" }} un talibé{% endblock %}
+{% block content %}
+<h1>{{ "Modifier" if talibe else "Ajouter" }} un talibé</h1>
+<form class="form-panel" method="post">
+  {{ form.hidden_tag() }}
+  <div class="field">{{ form.matricule.label }} {{ form.matricule(readonly=talibe is not none) }}{% for e in form.matricule.errors %}<p class="errors">{{ e }}</p>{% endfor %}</div>
+  <div class="field">{{ form.prenom.label }} {{ form.prenom() }}{% for e in form.prenom.errors %}<p class="errors">{{ e }}</p>{% endfor %}</div>
+  <div class="field">{{ form.nom.label }} {{ form.nom() }}{% for e in form.nom.errors %}<p class="errors">{{ e }}</p>{% endfor %}</div>
+  <div class="field">{{ form.date_naissance.label }} {{ form.date_naissance() }}{% for e in form.date_naissance.errors %}<p class="errors">{{ e }}</p>{% endfor %}</div>
+  <div class="field">{{ form.nom_tuteur.label }} {{ form.nom_tuteur() }}{% for e in form.nom_tuteur.errors %}<p class="errors">{{ e }}</p>{% endfor %}</div>
+  <div class="field">{{ form.telephone_tuteur.label }} {{ form.telephone_tuteur() }}{% for e in form.telephone_tuteur.errors %}<p class="errors">{{ e }}</p>{% endfor %}</div>
+  <div class="field">{{ form.classe_code.label }} {{ form.classe_code() }}{% for e in form.classe_code.errors %}<p class="errors">{{ e }}</p>{% endfor %}</div>
+  <button class="primary" type="submit">Enregistrer</button>
+  <a class="btn" href="{{ url_for('talibes.lister') }}">Annuler</a>
+</form>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Progressions{% endblock %}
+{% block content %}
+<h1>Progressions</h1>
+<div class="toolbar">
+  <form class="filters" method="get">
+    <div><label for="q">Recherche</label><input id="q" name="q" value="{{ q }}" placeholder="Sourate"></div>
+    <div><label for="talibe">Talibé</label><select id="talibe" name="talibe"><option value="">Tous</option>{% for t in talibes %}<option value="{{ t.matricule }}" {% if t.matricule == talibe_matricule %}selected{% endif %}>{{ t.nom_complet }}</option>{% endfor %}</select></div>
+    <button class="primary" type="submit">Rechercher</button>
+    <a class="btn" href="{{ url_for('progressions.lister') }}">Réinitialiser</a>
+  </form>
+  <div class="actions"><a class="btn" href="{{ url_for('progressions.exporter', q=q, talibe=talibe_matricule) }}">Exporter</a><a class="btn primary" href="{{ url_for('progressions.creer') }}">Ajouter</a></div>
+</div>
+<table>
+  <thead><tr><th>ID</th><th>Talibé</th><th>Sourate</th><th>Versets</th><th>Date</th><th>Observations</th><th>Actions</th></tr></thead>
+  <tbody>
+    {% for p in progressions %}
+      <tr>
+        <td>{{ p.id }}</td><td>{{ p.talibe.nom_complet }}</td><td>{{ p.sourate }}</td><td>{{ p.nombre_versets }}</td><td>{{ p.date_evaluation }}</td><td>{{ p.observations or "" }}</td>
+        <td class="actions">
+          <a class="btn" href="{{ url_for('progressions.modifier', progression_id=p.id) }}">Modifier</a>
+          <form class="inline" method="post" action="{{ url_for('progressions.supprimer', progression_id=p.id) }}">{{ csrf_token() }}<button class="danger" onclick="return confirm('Supprimer ?')">Supprimer</button></form>
+        </td>
+      </tr>
+    {% else %}
+      <tr><td colspan="7">Aucune progression.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
